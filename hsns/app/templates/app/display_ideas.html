@@ -2,12 +2,11 @@
 {% block content %}
 
 <div>
-  <h2>
-  {{idea.title}}
-  </h2>
-  {{idea.user.first_name}} {{idea.user.last_name}}<br>
-  {{idea.Hackathon.name}}
-  <p>{{ idea.text |truncatewords:"100" }}</p>
+	<h3>{{idea.title}}</h3>
+	<p>{{idea.user.first_name}} {{idea.user.last_name}}</p>
+	<p>{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} {% endfor %}</p>
+	<p>{{ idea.text |truncatewords:"100" }}</p>
+	<p>Tags: {{idea.tags}}</p>
 </div>
 
 {% endblock %}
