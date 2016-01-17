@@ -2,6 +2,8 @@
 
 {% block content %}
 
+<h1> logged in as {{ logininfo }} </h1>
+
 {% for h in hackathons %}
 	<li>{{h.name}}</li>
 {% endfor %}≈

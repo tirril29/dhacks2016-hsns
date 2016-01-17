@@ -21,29 +21,21 @@ urlpatterns = [
     url(r'^about/','app.views.about'),
 
     url(r'^idea/(?P<idea_id>[\d]+)/$','app.views.idea'),
+<<<<<<< HEAD
     #url(r'^idea/','app.views.ideaindex'),
     url(r'^ideas/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_idea'),
 
     url(r'^ad/(?P<ad_id>[\d]+)/$','app.views.ad'),
     #url(r'^ad/','app.views.adindex'),
     url(r'^ads/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_ad'),
-    
-<<<<<<< HEAD
+
     url(r'^all_ideas/','app.views.ideaindex'),
     url(r'^all_ads/','app.views.adindex'),
-    
     
     url(r'^login/', 'app.views.login'),
     url(r'^logout/', 'app.views.logout'),
     url(r'^register/', 'app.views.register'),
     
     url(r'^$','app.views.index'),
-    ]
-=======
 ]
-urlpatterns += [
-    url(r'^login/', 'app.views.login'),
-    url(r'^logout/', 'app.views.logout'),
-    url(r'^register/', 'app.views.register')
-]
->>>>>>> a1f80a4b36b1b070e7080e71233247e857a97640
+

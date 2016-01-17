@@ -11,8 +11,11 @@ class User(models.Model):
 	password = models.CharField(max_length = 30)
 
 class Post(models.Model):
-	Hackathon = models.ForeignKey(Hackathon, on_delete = models.CASCADE)
+	hackathon = models.ForeignKey(Hackathon, on_delete = models.CASCADE)
+	type = models.BooleanField()
+	title = models.CharField(max_length = 255)
 	text = models.CharField(max_length = 1024)
+	tags = models.CharField(max_length = 1024)
 	user = models.ForeignKey(User, related_name = 'member', on_delete = models.CASCADE)
 	members = models.ManyToManyField(User)
 	

@@ -78,10 +78,13 @@
   {
     "model": "app.post",
     "fields": {
-      "Hackathon":1,
+      "title": "Hail Hydrate",
+      "hackathon":1, 
+      "type":true,
       "text":"Hello, I am looking for a COBRA programmer, for nefarious purposes. ",
+      "tags":"#evil",
       "user":1,
-      "members": [1, 2]
+      "members": [2, 3]
     }
   },
   {
@@ -105,19 +108,25 @@
   {
     "model": "app.post",
     "fields": {
-      "Hackathon":2,
+      "title":"**URGENT** RAREST PEPE GENERATOR",
+      "type":true,
+      "hackathon":2,
       "text":"Looking for a cool team to make a dank meme generator :^) 2 years exp with node.js aka the only real dev language!!!!!!!!",
+      "tags":"#evil",
       "user":3,
-      "members": [3]
+      "members": [4, 5]
     }
   },
   {
     "model": "app.post",
     "fields": {
-      "Hackathon":1,
+      "title":"** URGRENT ** ",
+      "type":true,
+      "hackathon":1,
       "text":"I have an amazing idea, but I don't know how to code at all. I'll let you do all the coding for me, and we'll split equity 50-50. Msg me if you want details.",
+      "tags":"#evil",
       "user":4,
-      "members": [4]
+      "members": [5, 6]
     }
   }
 ]
