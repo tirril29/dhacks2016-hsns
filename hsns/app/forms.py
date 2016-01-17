@@ -10,8 +10,8 @@ class Login(forms.Form):
 
 
 class Register(forms.Form):
-	first_name = Form.CharField(help_text = "Enter your first name. ")
-	last_name = Form.CharField(help_text = "Enter your last name. ")
-	email_address = Form.EmailField(help_text = "Enter your email address. ")
-	password = Form.CharField(help_text = "Enter your totally sercure password. ") # HELLA INSECURE
+	first_name = forms.CharField(help_text = "Enter your first name. ")
+	last_name = forms.CharField(help_text = "Enter your last name. ")
+	email_address = forms.EmailField(help_text = "Enter your email address. ")
+	password = forms.CharField(help_text = "Enter your totally sercure password. ") # HELLA INSECURE
 

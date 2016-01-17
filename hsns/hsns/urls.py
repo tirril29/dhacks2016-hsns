@@ -25,8 +25,8 @@ urlpatterns = [
     url(r'^$','app.views.index'),
     
 ]
-urlpatterns = [
-    url(r'^login/', app.views.login)
-    url(r'^logout/', app.views.logout)
-    url(r'^register/', app.views.register)
+urlpatterns += [
+    url(r'^login/', 'app.views.login'),
+    url(r'^logout/', 'app.views.logout'),
+    url(r'^register/', 'app.views.register')
 ]
