@@ -18,15 +18,21 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-        url(r'^ideas/','app.views.ideaindex'),
+    url(r'^about/','app.views.about'),
+
     url(r'^idea/(?P<idea_id>[\d]+)/$','app.views.idea'),
-    #url(r'^(?P<hackathon_name>[\w]+)/$','app.views.hackathon'),
-    url(r'^about/','app.views.index'),
-    url(r'^$','app.views.index'),
+    url(r'^ideas/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_idea'),
+
+    url(r'^ad/(?P<ad_id>[\d]+)/$','app.views.ad'),
+    url(r'^ads/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_ad'),
+
+    url(r'^all_ideas/','app.views.ideaindex'),
+    url(r'^all_ads/','app.views.adindex'),
     
-]
-urlpatterns += [
     url(r'^login/', 'app.views.login'),
     url(r'^logout/', 'app.views.logout'),
-    url(r'^register/', 'app.views.register')
+    url(r'^register/', 'app.views.register'),
+    
+    url(r'^$','app.views.index'),
 ]
+

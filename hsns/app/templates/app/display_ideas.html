@@ -2,10 +2,10 @@
 
 <div>
   <h2>
-    {{idea.title}}
+  {{idea.title}}
   </h2>
-  {{idea.user}}
-  {{idea.Hackathon}}
+  {{idea.user.first_name}} {{idea.user.last_name}}<br>
+  {{idea.Hackathon.name}}
   <p>{{ idea.text |truncatewords:"100" }}</p>
 </div>
 

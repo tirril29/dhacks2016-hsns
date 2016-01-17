@@ -1,5 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponse
 from django.http import HttpResponse, HttpResponseRedirect
+
 import models, forms
 
 #Helpers:
@@ -16,24 +18,68 @@ reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'titl
 # Create your views here.
 def index(request):
 	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
-	return render(request, 'app/index.html', {'logininfo': request.session['user'], 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
+	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
                   'reg_modal': reg_modal, 'reg_form': forms.Register()});
-    #return HttpResponse("Index Page");
 
 def about(request):
    	return render(request,'app/about.html');
 
-#idea and posts are synonyms for the same concept
+#a page for the information for each 'idea' post
 def idea(request, idea_id):
-	return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
+	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)        
+        try:
+		idea = get_object_or_404(models.Post,id=idea_id)
 
+		return render (request,'app/display_ideas.html',{'idea':idea})
+	except:                                                             
+		return HttpResponse("Nonexistent Idea")
+
+#gets all ideas from all hackathons
 def ideaindex(request, cf = lambda x: True):
-	posts = filter(cf, [x for x in models.Post.objects.all().values()])
-	return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
+    posts = models.Post.objects.all()
+    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+    
+#render ideas for one specific hackathon using hackathon id 
+def hackathon_idea(request,hackathon_id):
+    try:
+        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
+        ideasH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
+        if len(ideasH) == 0:
+            return HttpResponse("No idea has been posted yet")
+        return render(request,'app/ideas_index.html',{'idea_list':[x for x in ideasH]});        
+        #return render(request,'app/post_template.html',{"hackathon":hack})
+    except:
+        return HttpResponse("Hackathon not found")
 
-def hackathon(request,hackathon_name):
-    #render form
-    return render(request,'app/post_template.html',{"user":"Bob Dylan","members":"John Doe","title":"POST TITLE","text":"TEXT"})
+##### Group Recruit ######
+def ad(request, ad_id):
+    try:
+        Ad = get_object_or_404(models.Post,id=ad_id)
+        
+        return render (request,'app/display_ads.html',{'ad':Ad})
+    except:                                                             
+        return HttpResponse("Nonexistent Ad")
+
+#gets all ads from all hackathons
+def adindex(request, cf = lambda x: True):
+    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
+    posts = models.Post.objects.all()
+    #for p in  models.User.object.all():
+    #    print p
+    return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
+    
+#render ads for one specific hackathon using hackathon id 
+def hackathon_ad(request,hackathon_id):
+    try:
+        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
+        adsH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
+        if len(ideasH) == 0:
+            return HttpResponse("No ad has been posted yet")
+        return render(request,'app/ads_index.html',{'ad_list':[x for x in adsH]});        
+        #return render(request,'app/post_template.html',{"hackathon":hack})
+    except:
+        return HttpResponse("Hackathon not found")
 
 ################
 ## FORM VIEWS ##
