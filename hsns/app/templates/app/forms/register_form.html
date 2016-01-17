@@ -1,0 +1,24 @@
+<form class="col-md-4 col-centered form-inline" action="{{ form_data.action }}" method="{{ form_data.method }}">
+    {% csrf_token %}
+    {% for field in form %}
+    <div class="row form-group">
+        {{ field.errors }}
+            {% if field.name == 'first_name' %}
+                <p> Enter your first name <p>
+            {% elif field.name == 'last_name' %}
+                <p> Enter your last name <p>
+            {% elif field.name == 'email_address' %}
+                <p>Enter your email address</p>
+            {% elif field.name == 'password' %}
+                <p>Enter your password</p>
+            {% endif %}       
+        {{ field }}
+    </div>
+    {% endfor %}
+
+    <br>
+    <div class="row btn-group" role="group">
+    {% for button in form_data.button_list %}
+    <button type='{{ button.type }}' class="btn btn-large {{ button.class }}" action="{{ button.action }}">{{ button.name }}</button>
+    {% endfor %}
+</form>

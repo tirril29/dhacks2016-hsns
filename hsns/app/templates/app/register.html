@@ -1,0 +1,9 @@
+{% extends "app/base.html" %}
+
+{% block content %}
+
+    {% with register_data as form_data and register_form as form %}
+        {% include "app/forms/register_form.html" %}
+    {% endwith %}
+
+{% endblock %}
