@@ -221,10 +221,11 @@ def create(request, type):
 			post.save()
 			for member in members:
 				post.members.add(member)
+			return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
 		else:
 			print form.errors
-			return HttpResponseRedirect('/create_page/' + type + '/')
-	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
+	return HttpResponseRedirect('/create_page/' + type + '/')
+		
 
 
 def login_page(request):
