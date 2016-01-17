@@ -17,5 +17,5 @@ class Register(forms.Form):
 
 
 class Search (forms.Form):
-	title_query= forms.CharField(help_text="Search by Title:")
-	tag_query=forms.CharField(help_text="Search by Tag:")
+	title_query= forms.CharField(required=False)
+	tag_query=forms.CharField(required=False)

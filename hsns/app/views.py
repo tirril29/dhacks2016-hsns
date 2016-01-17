@@ -14,7 +14,6 @@ login_data = {'name': 'Email Address', 'action': '/login/', 'method': 'post', 'b
 register_data = {'name': 'User Name', 'action': '/register/', 'method': 'post', 'button_list': register_buttons} 
 #reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
 
-
 # Create your views here.
 def index(request):
 	#print request.session['user']
@@ -36,37 +35,53 @@ def idea(request, idea_id):
 
 #gets all ideas from all hackathons
 def ideaindex(request):
-	search = request.GET.get('q')
-	titleQ = request.GET.get('t')
-	if search == None:
-		search=""
-	if titleQ == None:
-		titleQ = ""
-		#posts = models.Post.objects.all()
-		#return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
-	posts= models.Post.objects.filter(tags__icontains=search,title__icontains=titleQ)
-	if len(posts) == 0:
-		return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter'})
-	return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+		#return render(request,'app/ads_index.html',{'q':tag_query, 't':title_query})
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query)
+		if len(posts) == 0:
+			return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter','form':form})
+		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts], 'form':form});
 
 #render ideas for one specific hackathon using hackathon id 
 def hackathon_idea(request,hackathon_id):
-    try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        ideasH =  models.Post.objects.filter(hackathon = hackathon_id)
-        if len(ideasH) == 0:
-            return HttpResponse("No idea has been posted yet")
-        return render(request,'app/ideas_index.html',{'idea_list':[x for x in ideasH]});        
-        #return render(request,'app/post_template.html',{"hackathon":hack})
-    except:
-        return HttpResponse("Hackathon not found")
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query,hackathon = hackathon_id)
+		if len(posts) == 0:
+			return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter','form':form})
+		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts], 'form':form});
 
 def login_page(request):
 	return render(request, 'app/login.html',{'login_data': login_data, 'login_form': forms.Login()})
 def register_page(request):
 	return render(request, 'app/register.html',{'register_data': register_data, 'register_form': forms.Register()})
-
-
 
 ##### Group Recruit ######
 def ad(request, ad_id):
@@ -77,38 +92,53 @@ def ad(request, ad_id):
         return HttpResponse("Nonexistent Ad")
 
 #gets all ads from all hackathons
-def adindex(request): #, cf = lambda x: True):
-	search = request.GET.get('q')
-	titleQ = request.GET.get('t')
-	if search == None:
-		search=""
-	if titleQ == None:
-		titleQ = ""
-	if search == None:
-		posts = models.Post.objects.all()
-		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-	posts= models.Post.objects.filter(tags__icontains=search,title__icontains=titleQ)
-	if len(posts) == 0:
-		return render (request, 'app/ads_index.html', {'msg': 'No idea fits your search parameter'})
-	return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-'''    
-#posts = filter(cf, [x for x in models.Post.objects.all().values()])
-    posts = models.Post.objects.all()
-    #for p in  models.User.object.all():
-    #    print p
-    return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-   ''' 
+def adindex(request): #, cf = lambda x: True)
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				print form.cleaned_data
+				print request.POST
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+		#return render(request,'app/ads_index.html',{'q':tag_query, 't':title_query})
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		print request.GET
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query)
+		print posts
+		if len(posts) == 0:
+			return render (request, 'app/ads_index.html', {'msg': 'No ad fits your search parameter','form':form})
+		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form});
+
 #render ads for one specific hackathon using hackathon id 
 def hackathon_ad(request,hackathon_id):
-    try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        adsH =  models.Post.objects.filter(hackathon = hackathon_id)
-        if len(ideasH) == 0:
-            return HttpResponse("No ad has been posted yet")
-        return render(request,'app/ads_index.html',{'ad_list':[x for x in adsH]});        
-        #return render(request,'app/post_template.html',{"hackathon":hack})
-    except:
-        return HttpResponse("Hackathon not found")
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query,hackathon = hackathon_id)
+		if len(posts) == 0:
+			return render (request, 'app/ads_index.html', {'msg': 'No ad fits your search parameter','form':form})
+		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form});
 
 ################
 ## FORM VIEWS ##
