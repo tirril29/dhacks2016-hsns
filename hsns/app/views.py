@@ -17,8 +17,8 @@ register_data = {'name': 'User Name', 'action': '/register/', 'method': 'post', 
 
 # Create your views here.
 def index(request):
-	print request.session['user']
-	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
+	#print request.session['user']
+	hackathons = [x for x in models.Hackathon.objects.all().values('id', 'name')]
 	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons});
 
 def about(request):
@@ -51,7 +51,7 @@ def ideaindex(request):
 def hackathon_idea(request,hackathon_id):
     try:
         hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        ideasH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
+        ideasH =  models.Post.objects.filter(hackathon = hackathon_id)
         if len(ideasH) == 0:
             return HttpResponse("No idea has been posted yet")
         return render(request,'app/ideas_index.html',{'idea_list':[x for x in ideasH]});        
@@ -96,7 +96,7 @@ def adindex(request): #, cf = lambda x: True):
 def hackathon_ad(request,hackathon_id):
     try:
         hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        adsH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
+        adsH =  models.Post.objects.filter(hackathon = hackathon_id)
         if len(ideasH) == 0:
             return HttpResponse("No ad has been posted yet")
         return render(request,'app/ads_index.html',{'ad_list':[x for x in adsH]});        
