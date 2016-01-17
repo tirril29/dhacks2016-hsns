@@ -1,12 +1,36 @@
 {% extends "app/base.html" %}
 {% block content %}
+<style>
+  .tag{
+  padding:8px;
+  font-size:.9em;
+background-color:violet;
+  display:inline;
+  border-radius:6px;
+  }
+  <link rel="stylesheet" href="https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Orbitron:900">
+</style>
+<!-- About Section -->
+<h1 class="Orbitron-normal-900" style="text-align:center"><i>Idea</i></h1>
+<section class="container content-section text-center">
+  <div class="row">
+    <div id="post-box" class="col-lg-8 col-lg-offset-2">
 
-<div>
-	<h3>{{idea.title}}</h3>
-	<p>{{idea.user.first_name}} {{idea.user.last_name}}</p>
-	<p>{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} {% endfor %}</p>
-	<p>{{ idea.text |truncatewords:"100" }}</p>
-	<p>Tags: {{idea.tags}}</p>
-</div>
+      <h1><u>{{idea.title}}</u></h1>
+      
+                <p id="group-members">{{idea.user.first_name}} {{idea.user.last_name}} and <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title="{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}}<br>{% endfor %}">two others</a></p>
+      <p>{{ idea.text }}</p>
+		<p>Tags: <span class="tag">{{ idea.tags }}</span><p>
+	
+    </div>
+  </div>
+</section>
+
+
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+</script>
 
 {% endblock %}

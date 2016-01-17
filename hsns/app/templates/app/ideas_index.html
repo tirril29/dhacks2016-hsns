@@ -1,17 +1,19 @@
 {% extends "app/base.html" %}
 {% block content %}
 <h1>{{ msg }}</h1>
-
+<p class="ideas-text">Ideas Test</p>
+                       <!-- LIST OF IDEAS -->
+    
 {% for idea in idea_list %}
-    <div>
-    	<h3>{{idea.title}}</h3>
-        <p>{{ idea.user.first_name }} {{ idea.user.last_name}}</p>
-        <p>{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}}  {% endfor %}</p>
+  <div style="margin:4em;background-color:beige;color:black;font-weight:800;">
+    <h2 style="margin:10px"><a href="#" class="list-group-item">{{idea.title}}</a></h2>
+    <div style="margin:10px;padding:15px 0;text-align:left;display:inline; font-size:16px">{{ idea.user.first_name }} {{ idea.user.last_name}}</div>
+        <div style="margin:10px;padding:15px 0;text-align:right;float:right;display:inline;font-size:16px;">{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} <span style="padding:25px"></span> {% endfor %}</div>
         <p>{{ idea.text |truncatewords:"100" }}</p>
-		<p>Tags: {{ idea.tags }}
+		Tags:<span class="mini-tags">{{ idea.tags }}</span>
     </div>
 {% endfor %}
-
+</div>
 <form action="?q={{tag_query}}&t={{title_query}}" method="POST">
 	{% csrf_token %}
 	{{form}}  
