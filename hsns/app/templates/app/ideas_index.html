@@ -4,17 +4,17 @@
 
 {% for idea in idea_list %}
     <div>
-        <h2>{{idea.hackathon.name}}</h2>
-	{{idea.title}}<br>
+    	<h3>{{idea.title}}</h3>
+        <p>{{ idea.user.first_name }} {{ idea.user.last_name}}</p>
+        <p>{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}}  {% endfor %}</p>
         <p>{{ idea.text |truncatewords:"100" }}</p>
-        <p>{{ idea.user.first_name }}, {{ idea.user.last_name}}   :  {{idea.members}}</p>
-	<p>{{ idea.tags }}
+		<p>Tags: {{ idea.tags }}
     </div>
 {% endfor %}
 
 <form action="?q={{tag_query}}&t={{title_query}}" method="POST">
-{% csrf_token %}
-{{form}}  
+	{% csrf_token %}
+	{{form}}  
   <input type="submit" name="submit" value="submit">
 </form>
 

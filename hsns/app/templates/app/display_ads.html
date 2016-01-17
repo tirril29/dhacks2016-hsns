@@ -1,9 +1,17 @@
 {% extends "app/base.html" %}
 {% block content %}
 
+
+<div>
+    	<h3>{{ad.title}}</h3>
+        <p>{{ ad.user.first_name }} {{ ad.user.last_name}}</p>
+        <p>{% for member in ad.members.all %}{{member.first_name}} {{member.last_name}}  {% endfor %}</p>
+        <p>{{ ad.text |truncatewords:"100" }}</p>
+		<p>Tags: {{ idea.tags }}
+    </div>
 <div>
   
-  {{ad.user.first_name}} {{ad.user.last_name}}<br>
+  {{ad.user.first_name}} {{ad.user.last_name}}<br> {% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} {% endfor %}
   <h2>
   LOOKING FOR MEMBERS FOR {{ad.Hackathon.name}}
   </h2>
