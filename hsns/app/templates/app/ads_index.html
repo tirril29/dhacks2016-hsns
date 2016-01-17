@@ -30,7 +30,7 @@
 </style>
 {% for ad in ad_list %}
 <div style="margin:3em;background-color:white;color:black;padding:24px;font-weight:800;border-radius:20px">
-  <h2 style="margin:10px"><a href="#"g>{{ad.title}}</a></h2>
+  <h2 style="margin:10px"><a href="../ad/{{ad.user.id}}"g>{{ad.title}}</a></h2>
   <div style="display:inline;color:navy"><div style="margin:5px;padding:10px 0;text-align:left;display:inline-block; font-size:20px">{{ ad.user.first_name }} {{ ad.user.last_name}}</div>
     <div style="margin:5px;padding:10px 0;text-align:right;float:right;display:inline;font-size:18px;">{% for member in ad.members.all %}{{member.first_name}} {{member.last_name}} 
       <span style="padding:25px"></span> {% endfor %}</div> </div>

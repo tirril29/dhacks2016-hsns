@@ -127,12 +127,9 @@ def hackathon_idea(request):#,hackathon_id):
 #a page for the information for each 'ad' post
 def ad(request, ad_id):
 	#return adindex(request, cf = lambda x: True if x[u'id'] == ad_id else False)
-	try:
-		ad = get_object_or_404(models.Post,id=ad_id)
-		return render (request,'app/display_ads.html',{'ad':ad})
-	except:                                                             
-		return HttpResponse("Nonexistent Ad")
-
+	ad = get_object_or_404(models.Post,id=ad_id)
+	return render (request,'app/display_ads.html',{'ad':ad})
+	
 def adindex(request): #, cf = lambda x: True)
 	if request.method == "POST":
 		form = forms.Search(request.POST)
