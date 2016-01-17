@@ -2,8 +2,55 @@
 
 {% block content %}
 
-{% for h in hackathons %}
-	<li><a href="{{h.link}}">{{h.name}}</li>
-{% endfor %}
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <h1 class="brand-heading">HACK 4 NATION</h1>
+                        <p class="intro-text">Find Your Team.<br>Hack Your Idea.</p>
 
-{% endblock %}
+                        <div class="btn-group">
+                            <button class="btn btn-default" type="button">Select Your Hackathon</button>
+                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                {% for h in hackathons %}
+                                <li><a href="#about" data-link="{{h.link}}">{{h.name}}</a></li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+<!-- About Section -->
+<section id="about" class="container content-section text-center">
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <h1 style="font-size:200px;" class="glyphicon glyphicon-piggy-bank">
+                        </h1>
+
+                        <a href="Posts.html"><h2>I HAS IDEAZ</h2> </a>
+                    </div>
+                    <div class="col-sm-6">
+                        <h1 style="font-size:200px;" class="glyphicon glyphicon-fire"></h1> 
+
+                        <a href="Posts.tml"><h2>I HAS SKILLZ</h2> </a>
+                    </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+    </body>
+
+
+    {% endblock %}
