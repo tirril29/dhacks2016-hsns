@@ -150,7 +150,6 @@ a:focus {
     padding: 100px 0;
     text-align: center;
     color: #fff;
-    background: url(../img/intro-bg.jpg) no-repeat bottom center scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -241,6 +240,10 @@ input {
     -moz-animation-timing-function: linear;
 }
 
+.dropdown-menu {
+    left:40%;
+}
+
 @-webkit-keyframes pulse {    
     0% {
         -webkit-transform: scale(1);
@@ -325,9 +328,6 @@ input {
     text-transform: uppercase;
     font-family: Montserrat,"Helvetica Neue",Helvetica,Arial,sans-serif;
     font-weight: 400;
-    -webkit-transition: all .3s ease-in-out;
-    -moz-transition: all .3s ease-in-out;
-    transition: all .3s ease-in-out;
 }
 
 .btn-default {

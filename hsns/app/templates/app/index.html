@@ -4,18 +4,19 @@
 
     <!-- Intro Header -->
     <header class="intro">
-        <div class="intro-body">
+        <div >
             <div class="container">
                 <div class="row">
                     <div class="col-md-8 col-md-offset-2">
                         <h1 class="brand-heading">HACK 4 NATION</h1>
                         <p class="intro-text">Find Your Team.<br>Hack Your Idea.</p>
 
-                        <div class="btn-group">
-                            <button class="btn btn-default" type="button">Select Your Hackathon</button>
-                            <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button"><span class="caret"></span>
+                        <div class="dropdown">
+                            <button id="dropdown" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="true">
+                                Select Your Hackathon <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu">
+                            <ul class="dropdown-menu" aria-labeledby="dropdown">
                                 {% for h in hackathons %}
                                 <li><a href="#about" data-link="{{h.link}}">{{h.name}}</a></li>
                                 {% endfor %}
