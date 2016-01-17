@@ -38,10 +38,12 @@ def idea(request, idea_id):
 def ideaindex(request):
 	search = request.GET.get('q')
 	titleQ = request.GET.get('t')
-	if search == None or titleQ == None:
+	if search == None:
 		search=""
-		posts = models.Post.objects.all()
-		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	if titleQ == None:
+		titleQ = ""
+		#posts = models.Post.objects.all()
+		#return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
 	posts= models.Post.objects.filter(tags__icontains=search,title__icontains=titleQ)
 	if len(posts) == 0:
 		return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter'})
@@ -70,18 +72,22 @@ def register_page(request):
 def ad(request, ad_id):
     try:
         Ad = get_object_or_404(models.Post,id=ad_id)
-        
-        return render (request,'app/display_ads.html',{'ad':Ad})
+	return render (request,'app/display_ads.html',{'ad':Ad})
     except:                                                             
         return HttpResponse("Nonexistent Ad")
 
 #gets all ads from all hackathons
 def adindex(request): #, cf = lambda x: True):
 	search = request.GET.get('q')
+	titleQ = request.GET.get('t')
+	if search == None:
+		search=""
+	if titleQ == None:
+		titleQ = ""
 	if search == None:
 		posts = models.Post.objects.all()
 		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-	posts= models.Post.objects.filter(tags__icontains=search)#,title__icontains=search)
+	posts= models.Post.objects.filter(tags__icontains=search,title__icontains=titleQ)
 	if len(posts) == 0:
 		return render (request, 'app/ads_index.html', {'msg': 'No idea fits your search parameter'})
 	return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
