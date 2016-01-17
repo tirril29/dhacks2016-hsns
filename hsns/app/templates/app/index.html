@@ -3,7 +3,7 @@
 {% block content %}
 
 {% for h in hackathons %}
-	<li><a href="ideas/{{h.id}}/">{{h.name}}</li>
+	<li><a href="{{h.link}}">{{h.name}}</li>
 {% endfor %}
 
 {% endblock %}
