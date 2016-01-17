@@ -57,10 +57,18 @@
                 <ul class="nav navbar-nav">
                     <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
                     <li>
-                        <a href="/register_page">Register</a>
+		      {% if request.session.user > 0 %}
+                      <a href="#">Hi, {{request.session.username}}! </a>  
+		      {% else %}
+		      <a href="/register_page">Register</a>
+		      {% endif %}
                     </li>
                     <li>
-                        <a href="/login_page">Login</a>
+                       {% if request.session.user > 0 %}
+		       <a href="/logout">Logout</a>
+		       {% else %}
+		       <a href="/login_page">Login</a>
+		       {% endif %}
                     </li>
                     <li>
                         <a href="/about">About</a>

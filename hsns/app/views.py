@@ -31,6 +31,52 @@ def set(request, n):
 def about(request):
    	return render(request,'app/about.html');
 
+#Create and simple log in pages
+
+
+
+def create(request, type):
+	if request.method == 'POST':
+		form = forms.Create(request.POST)
+		if form.is_valid():
+			hackathon = models.Hackathon.objects.get(id = request.session['hackathon'])
+			user = models.User.objects.get(id = request.session['user'])
+			type = type
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			tags = form.cleaned_data['tags']
+			email1 = form.cleaned_data['email1']
+			email2 = form.cleaned_data['email2']
+			members = [x for x in list(models.User.objects.filter(email_address = email2)) + list(models.User.objects.filter(email_address = email1))]
+			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags)
+			post.save()
+			for member in members:
+				post.members.add(member)
+		else:
+			print form.errors
+			return HttpResponseRedirect('/create_page/' + type + '/')
+	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
+
+
+def login_page(request):
+	return render(request, 'app/login.html',{'login_data': login_data, 'login_form': forms.Login()})
+def register_page(request):
+	return render(request, 'app/register.html',{'register_data': register_data, 'register_form': forms.Register()})
+def create_page(request, type):
+	c_d = create_data
+	c_d['action'] += type + '/'
+	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
+
+
+
+
+
+
+
+
+
+
+
 #a page for the information for each 'idea' post
 def idea(request, idea_id):
 	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
@@ -161,27 +207,34 @@ def login(request):
             #print "form is valid"
             email_address = form.cleaned_data['email_address']
             password = form.cleaned_data['password']
-
-            user = models.User.objects.get(email_address__exact = email_address)
-            if user is not None:
+	    try:
+		    user = models.User.objects.get(email_address__exact = email_address)
+            except:
+		    return HttpResponseRedirect('/login_page',{'msg':"There is no account associated with this email address."})
+	    if user is not None:
                 #print "verifying password"
                 if user.password == password:
-                    request.session['user'] = user.id
-                    return HttpResponseRedirect('/')
-            else:
+			request.session['username'] = user.first_name
+			request.session['user'] = user.id
+			return HttpResponseRedirect('/')
+		else:
+			return HttpResponseRedirect('/login_page')
+	    else:
             	return HttpResponse('No such user.')
     	else:
-    		return HttpResponseRedirect('/')
+    		return HttpResponseRedirect('/login_page')
 
 def logout(request):
     """View to Logout of session 
 
     remove session variables and return to login page 
     """
+    request.session['username'] = ""
+    request.session['user'] = -1
     for state, sessionInfo in request.session.items():
         sessionInfo = None
 	return HttpResponseRedirect('/')
-
+    
 def register(request):
 	if request.method == "POST":
 		form = forms.Register(request.POST)
@@ -203,37 +256,3 @@ def register(request):
 		else:
 			print form.errors 
 			return HttpResponseRedirect('/')
-
-def create(request, type):
-	if request.method == 'POST':
-		form = forms.Create(request.POST)
-		if form.is_valid():
-			hackathon = models.Hackathon.objects.get(id = request.session['hackathon'])
-			user = models.User.objects.get(id = request.session['user'])
-			type = type
-			title = form.cleaned_data['title']
-			text = form.cleaned_data['text']
-			tags = form.cleaned_data['tags']
-			email1 = form.cleaned_data['email1']
-			email2 = form.cleaned_data['email2']
-			members = [x for x in list(models.User.objects.filter(email_address = email2)) + list(models.User.objects.filter(email_address = email1))]
-			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags)
-			post.save()
-			for member in members:
-				post.members.add(member)
-		else:
-			print form.errors
-			return HttpResponseRedirect('/create_page/' + type + '/')
-	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
-
-
-def login_page(request):
-	return render(request, 'app/login.html',{'login_data': login_data, 'login_form': forms.Login()})
-def register_page(request):
-	return render(request, 'app/register.html',{'register_data': register_data, 'register_form': forms.Register()})
-def create_page(request, type):
-	c_d = create_data
-	c_d['action'] += type + '/'
-	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
-
-
