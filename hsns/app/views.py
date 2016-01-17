@@ -68,15 +68,6 @@ def create_page(request, type):
 	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
 
 
-
-
-
-
-
-
-
-
-
 #a page for the information for each 'idea' post
 def idea(request, idea_id):
 	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
