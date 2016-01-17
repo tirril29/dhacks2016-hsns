@@ -16,5 +16,57 @@
       "password": "guest",
       "email_address":"b@gmail.com"
     }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "John",
+      "last_name": "Doe",
+      "password": "password12345",
+      "email_address":"johndoe@gmail.com"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Johnny",
+      "last_name": "Appleseed",
+      "password": "pizza",
+      "email_address":"applesarecool@aol.com"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Ash",
+      "last_name": "Ketchum",
+      "password": "pikachu",
+      "email_address":"p0kem0nmaster@yahoo.com"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Misty",
+      "password": "wateriscool",
+      "email_address":"cerulean@gmail.com"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Takeshi",
+      "password": "rocks",
+      "email_address":"cookingisfun@yahoo.co.jp"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Brock",
+      "last_name": "Harrison",
+      "password": "nursejoy",
+      "email_address":"pewter@gmail.com"
+    }
   }
 ]
