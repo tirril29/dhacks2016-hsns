@@ -15,3 +15,15 @@ class Register(forms.Form):
 	email_address = forms.EmailField(help_text = "Enter your email address. ")
 	password = forms.CharField(help_text = "Enter your totally sercure password. ") # HELLA INSECURE
 
+
+class Search (forms.Form):
+	title_query= forms.CharField(required=False)
+	tag_query=forms.CharField(required=False)
+
+class Create(forms.Form):
+	title = forms.CharField()
+	text = forms.CharField()
+	tags = forms.CharField()
+	email1 = forms.EmailField(required = False)
+	email2 = forms.EmailField(required = False)
+

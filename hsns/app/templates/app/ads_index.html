@@ -1,0 +1,25 @@
+{% extends "app/base.html" %}
+{% block content %}
+<h1>{{msg}}</h1>
+{% for ad in ad_list %}
+    <div>
+    	<h3>{{ad.title}}</h3>
+        <p>{{ ad.user.first_name }} {{ ad.user.last_name}}</p>
+        <p>{% for member in ad.members.all %}{{member.first_name}} {{member.last_name}}  {% endfor %}</p>
+        <p>{{ idea.text |truncatewords:"100" }}</p>
+		<p>Tags: {{ idea.tags }}
+    </div>
+{% endfor %}
+
+<form action="?q={{tag_query}}&t={{title_query}}" method="POST">
+{% csrf_token %}
+{{form}}  
+  <input type="submit" name="submit" value="submit">
+</form>
+
+{% if flag %}
+<a href='/create/False/'>Post</a>
+{% endif %}
+
+
+{% endblock %}

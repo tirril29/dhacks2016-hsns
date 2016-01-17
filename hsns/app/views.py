@@ -6,28 +6,41 @@ import models, forms
 
 #Helpers:
 
-login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}, #, 'class': 'btn-primary'},
-{'name': 'Register', 'type': 'modal', 'data_target': '#createUser'}] #, 'class': 'btn-success'}] 
+loggedin = lambda x: True if 'user' in x and x['user'] is not None else False
+
+login_buttons = [{'name': 'Log In', 'type': 'submit', 'action': '/login/'}] #, 'class': 'btn-success'}] 
+register_buttons = [{'name': 'Register', 'type':'submit', 'action':'/register/'}]
+create_buttons = [{'name': 'Submit', 'type': 'submit', 'action': '/create/'}]
 
 
-login_data = {'name': 'User Name', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
-
-reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
-
+login_data = {'name': 'Log In', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
+register_data = {'name': 'Register', 'action': '/register/', 'method': 'post', 'button_list': register_buttons} 
+create_data = {'name': 'Create', 'action':'/create/', 'method':'post', 'button_list': create_buttons}
+#reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
 
 # Create your views here.
 def index(request):
-	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
-	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
-                  'reg_modal': reg_modal, 'reg_form': forms.Register()});
+	#print request.session['user']
+	hackathons = [{'name': x['name'], 'link': '/set/' + str(x['id'])} for x in models.Hackathon.objects.all().values('id', 'name')]
+	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons});
+
+def set(request, n):
+	request.session['hackathon'] = n;
+	return HttpResponseRedirect('/problem/')
+
+
+def option (request):
+	
+	return render(request, 'app/option.html',{'session':request.session['hackathon']});
+
 
 def about(request):
    	return render(request,'app/about.html');
 
 #a page for the information for each 'idea' post
 def idea(request, idea_id):
-	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)        
-        try:
+	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
+	try:
 		idea = get_object_or_404(models.Post,id=idea_id)
 
 		return render (request,'app/display_ideas.html',{'idea':idea})
@@ -35,51 +48,107 @@ def idea(request, idea_id):
 		return HttpResponse("Nonexistent Idea")
 
 #gets all ideas from all hackathons
-def ideaindex(request, cf = lambda x: True):
-    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
-    posts = models.Post.objects.all()
-    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
-    
+def ideaindex(request):
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+		#return render(request,'app/ads_index.html',{'q':tag_query, 't':title_query})
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query)
+		if len(posts) == 0:
+			return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter','form':form})
+		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts], 'form':form});
+
 #render ideas for one specific hackathon using hackathon id 
-def hackathon_idea(request,hackathon_id):
-    try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        ideasH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
-        if len(ideasH) == 0:
-            return HttpResponse("No idea has been posted yet")
-        return render(request,'app/ideas_index.html',{'idea_list':[x for x in ideasH]});        
-        #return render(request,'app/post_template.html',{"hackathon":hack})
-    except:
-        return HttpResponse("Hackathon not found")
+def hackathon_idea(request):#,hackathon_id):
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query,hackathon = request.session['hackathon'])
+		if len(posts) == 0:
+			return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter','form':form,'flag': loggedin(request.session)});
+		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts], 'form':form,'flag': loggedin(request.session)});
 
-##### Group Recruit ######
+
+#a page for the information for each 'ad' post
 def ad(request, ad_id):
-    try:
-        Ad = get_object_or_404(models.Post,id=ad_id)
-        
-        return render (request,'app/display_ads.html',{'ad':Ad})
-    except:                                                             
-        return HttpResponse("Nonexistent Ad")
+	#return adindex(request, cf = lambda x: True if x[u'id'] == ad_id else False)
+	try:
+		ad = get_object_or_404(models.Post,id=ad_id)
+		return render (request,'app/display_ads.html',{'ad':ad})
+	except:                                                             
+		return HttpResponse("Nonexistent Ad")
 
-#gets all ads from all hackathons
-def adindex(request, cf = lambda x: True):
-    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
-    posts = models.Post.objects.all()
-    #for p in  models.User.object.all():
-    #    print p
-    return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-    
+def adindex(request): #, cf = lambda x: True)
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				print form.cleaned_data
+				print request.POST
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+		#return render(request,'app/ads_index.html',{'q':tag_query, 't':title_query})
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		print request.GET
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query)
+		print posts
+		if len(posts) == 0:
+			return render (request, 'app/ads_index.html', {'msg': 'No ad fits your search parameter','form':form,'flag': loggedin(request.session)})
+		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form,'flag': loggedin(request.session)});
+
 #render ads for one specific hackathon using hackathon id 
-def hackathon_ad(request,hackathon_id):
-    try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        adsH =  models.Post.objects.filter(Hackathon_id = hackathon_id)
-        if len(ideasH) == 0:
-            return HttpResponse("No ad has been posted yet")
-        return render(request,'app/ads_index.html',{'ad_list':[x for x in adsH]});        
-        #return render(request,'app/post_template.html',{"hackathon":hack})
-    except:
-        return HttpResponse("Hackathon not found")
+def hackathon_ad(request):#,hackathon_id):
+	if request.method == "POST":
+		form = forms.Search(request.POST)
+		if form.is_valid():
+			if "submit" in request.POST:
+				title_query = form.cleaned_data["title_query"]
+				tag_query = form.cleaned_data["tag_query"]
+				return HttpResponseRedirect('?q='+tag_query+'&t='+title_query)
+	else:
+		form = forms.Search()
+		tag_query = request.GET.get('q')
+		title_query = request.GET.get('t')
+		if title_query == None:
+			title_query=""
+		if tag_query== None:
+			tag_query = ""
+		posts= models.Post.objects.filter(tags__icontains=tag_query,title__icontains=title_query,hackathon = request.session['hackathon'])
+		if len(posts) == 0:
+			return render (request, 'app/ads_index.html', {'msg': 'No ad fits your search parameter','form':form})
+		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form});
 
 ################
 ## FORM VIEWS ##
@@ -105,6 +174,10 @@ def login(request):
                 if user.password == password:
                     request.session['user'] = user.id
                     return HttpResponseRedirect('/')
+            else:
+            	return HttpResponse('No such user.')
+    	else:
+    		return HttpResponseRedirect('/')
 
 def logout(request):
     """View to Logout of session 
@@ -115,8 +188,6 @@ def logout(request):
         sessionInfo = None
 	return HttpResponseRedirect('/')
 
-## STILL EXISTS BECAUSE OWEN IS WORKING ON LOGIN PAGE 
-## I DON'T WANT TO RESTRUCTURE REG FORMS, WILL BE Create_Object
 def register(request):
 	if request.method == "POST":
 		form = forms.Register(request.POST)
@@ -133,7 +204,42 @@ def register(request):
 				user.save()
 				request.session['user'] = user.id
 				return HttpResponseRedirect('/')
-			print "user %s exists" % user[0]
+			else: 
+				print "user %s exists" % user[0]
 		else:
 			print form.errors 
 			return HttpResponseRedirect('/')
+
+def create(request, type):
+	if request.method == 'POST':
+		form = forms.Create(request.POST)
+		if form.is_valid():
+			hackathon = models.Hackathon.objects.get(id = request.session['hackathon'])
+			user = models.User.objects.get(id = request.session['user'])
+			type = type
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			tags = form.cleaned_data['tags']
+			email1 = form.cleaned_data['email1']
+			email2 = form.cleaned_data['email2']
+			members = [x for x in list(models.User.objects.filter(email_address = email2)) + list(models.User.objects.filter(email_address = email1))]
+			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags)
+			post.save()
+			for member in members:
+				post.members.add(member)
+		else:
+			print form.errors
+			return HttpResponseRedirect('/create_page/' + type + '/')
+	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
+
+
+def login_page(request):
+	return render(request, 'app/login.html',{'login_data': login_data, 'login_form': forms.Login()})
+def register_page(request):
+	return render(request, 'app/register.html',{'register_data': register_data, 'register_form': forms.Register()})
+def create_page(request, type):
+	c_d = create_data
+	c_d['action'] += type + '/'
+	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
+
+
