@@ -1,11 +1,13 @@
-{% block content %}
+<h1>{{ msg }}</h1>
 
+{% block content %}
 {% for idea in idea_list %}
     <div>
         <h2>{{idea.Hackathon.name}}</h2>
+	{{idea.title}}<br>
         <p>{{ idea.text |truncatewords:"100" }}</p>
         <p>{{ idea.user.first_name }}, {{ idea.user.last_name}}   :  {{idea.members}}</p>
+	<p>{{ idea.tags }}
     </div>
 {% endfor %}
-
 {% endblock %}

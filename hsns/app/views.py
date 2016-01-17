@@ -19,7 +19,7 @@ reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'titl
 def index(request):
 	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
 	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
-                  'reg_modal': reg_modal, 'reg_form': forms.Register()});
+					  'reg_modal': reg_modal, 'reg_form': forms.Register()});
 
 def about(request):
    	return render(request,'app/about.html');
@@ -35,11 +35,24 @@ def idea(request, idea_id):
 		return HttpResponse("Nonexistent Idea")
 
 #gets all ideas from all hackathons
-def ideaindex(request, cf = lambda x: True):
-    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
-    posts = models.Post.objects.all()
-    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
-    
+def ideaindex(request):
+	search = request.GET.get('q')
+	if search == None:
+		posts = models.Post.objects.all()
+		return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	posts= models.Post.objects.filter(tags__icontains=search)#,title__icontains=search)
+	if len(posts) == 0:
+		return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter'})
+	return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+        '''
+	try;
+            #posts = filter(cf, [x for x in models.Post.objects.all().values()])
+	    posts=models.Post.objects.istartswith("search")
+	    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	except:
+	    posts = models.Post.objects.all()
+	    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	    '''
 #render ideas for one specific hackathon using hackathon id 
 def hackathon_idea(request,hackathon_id):
     try:
@@ -62,13 +75,22 @@ def ad(request, ad_id):
         return HttpResponse("Nonexistent Ad")
 
 #gets all ads from all hackathons
-def adindex(request, cf = lambda x: True):
-    #posts = filter(cf, [x for x in models.Post.objects.all().values()])
+def adindex(request): #, cf = lambda x: True):
+	search = request.GET.get('q')
+	if search == None:
+		posts = models.Post.objects.all()
+		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
+	posts= models.Post.objects.filter(tags__icontains=search)#,title__icontains=search)
+	if len(posts) == 0:
+		return render (request, 'app/ads_index.html', {'msg': 'No idea fits your search parameter'})
+	return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
+'''    
+#posts = filter(cf, [x for x in models.Post.objects.all().values()])
     posts = models.Post.objects.all()
     #for p in  models.User.object.all():
     #    print p
     return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
-    
+   ''' 
 #render ads for one specific hackathon using hackathon id 
 def hackathon_ad(request,hackathon_id):
     try:
