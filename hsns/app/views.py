@@ -1,6 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-
+from django.http import HttpResponse, HttpResponseRedirect
 import models, forms
 
 #Helpers:
@@ -9,15 +8,15 @@ login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}, #, 'c
 {'name': 'Register', 'type': 'modal', 'data_target': '#createUser'}] #, 'class': 'btn-success'}] 
 
 
-login_data = {'name': 'User Name', 'action': '/login', 'method': 'post', 'button_list': login_buttons} 
+login_data = {'name': 'User Name', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
 
-reg_modal = {'id': 'createUser', 'action': '/register', 'method': 'post', 'title': 'Register User'} 
+reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
 
 
 # Create your views here.
 def index(request):
 	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
-	return render(request, 'app/index.html', {'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
+	return render(request, 'app/index.html', {'logininfo': request.session['user'], 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
                   'reg_modal': reg_modal, 'reg_form': forms.Register()});
     #return HttpResponse("Index Page");
 
@@ -81,14 +80,14 @@ def register(request):
 			email_address = form.cleaned_data['email_address']
 			password = form.cleaned_data['password']
 
-			user = models.User.objects.get(email_address__exact = email_address)
-			if user is None:
+			user = models.User.objects.filter(email_address__exact = email_address)
+			if len(user) is 0:
 				user = models.User(first_name = first_name, last_name = last_name, 
 					email_address = email_address, password = password)
 				user.save()
 				request.session['user'] = user.id
 				return HttpResponseRedirect('/')
-				print "user %s exists" % user
+			print "user %s exists" % user[0]
 		else:
 			print form.errors 
 			return HttpResponseRedirect('/')

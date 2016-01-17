@@ -20,7 +20,7 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
         url(r'^ideas/','app.views.ideaindex'),
     url(r'^idea/(?P<idea_id>[\d]+)/$','app.views.idea'),
-    url(r'^(?P<hackathon_name>[\w]+)/$','app.views.hackathon'),
+    #url(r'^(?P<hackathon_name>[\w]+)/$','app.views.hackathon'),
     url(r'^about/','app.views.index'),
     url(r'^$','app.views.index'),
     
