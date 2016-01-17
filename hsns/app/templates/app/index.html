@@ -1,7 +1,9 @@
+{% extends "app/base.html" %}
+
 {% block content %}
 
 {% for h in hackathons %}
-    <li>{{h.name}}</li>
+   <li>{{h.name}}</li>
 {% endfor %}
 
 {% endblock %}

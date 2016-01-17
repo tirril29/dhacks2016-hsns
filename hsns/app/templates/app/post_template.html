@@ -1,11 +1,11 @@
-{% extends 'base.html' %}
-
+{% extends "app/base.html" %}
+<!-- app/base.html b/c django fools around with url paths -->
 
 {% block content %}
-  Master USER:{{user}}
-  Members: {{members}}
-  Title : {{title}}
-  Text : {{text}}
+  Master USER:{{user}} <br>
+  Members: {{members}} <br>
+  Title : {{title}} <br>
+  Text : {{text}} <br>
 
 {% endblock content %}
 

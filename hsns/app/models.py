@@ -15,3 +15,7 @@ class Post(models.Model):
 	text = models.CharField(max_length = 1024)
 	user = models.ForeignKey(User, related_name = 'member', on_delete = models.CASCADE)
 	members = models.ManyToManyField(User)
+	
+#Hackathon_id
+#text
+#user_id
