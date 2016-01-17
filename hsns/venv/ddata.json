@@ -74,5 +74,14 @@
       "password": "nursejoy",
       "email_address":"pewter@gmail.com"
     }
+  },
+  {
+    "model": "app.post",
+    "fields": {
+      "Hackathon":1,
+      "text":"Hello, I am looking for a COBRA programmer, for nefarious purposes. ",
+      "user":1,
+      "members": [1, 2]
+    }
   }
 ]
