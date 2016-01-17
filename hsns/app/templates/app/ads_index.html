@@ -1,0 +1,13 @@
+{% block content %}
+
+{% for ad in ad_list %}
+    <div>
+      <h1> {{ad.title}}
+        <h2>AD FOR {{ad.Hackathon.name}}</h2>
+        <p>{{ ad.text |truncatewords:"100" }}</p>
+        <p>{{ ad.user.first_name }}, {{ ad.user.last_name}}   :  {{ad.members}}</p>
+	<p> {{ad.tags}}
+    </div>
+{% endfor %}
+
+{% endblock %}
