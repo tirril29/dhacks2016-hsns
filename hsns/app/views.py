@@ -7,7 +7,7 @@ import models
 
 
 def index(request):
-    return render(request, 'templates/index.html', {'hackathons': [{'name': x} for x in models.Hackathon.objects.all()]});
+    return render(request, 'app/index.html', {'hackathons': [{'name': x} for x in models.Hackathon.objects.all()]});
     #return HttpResponse("Index Page");
 
 
