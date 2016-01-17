@@ -6,14 +6,14 @@ import models
 
 class Login(forms.Form):
 	email_address = forms.EmailField()
-	password = forms.CharField()
+	password = forms.CharField(widget=forms.PasswordInput())
 
 
 class Register(forms.Form):
 	first_name = forms.CharField(help_text = "Enter your first name. ")
 	last_name = forms.CharField(help_text = "Enter your last name. ")
 	email_address = forms.EmailField(help_text = "Enter your email address. ")
-	password = forms.CharField(help_text = "Enter your totally sercure password. ") # HELLA INSECURE
+	password = forms.CharField(widget=forms.PasswordInput()) # HELLA INSECURE
 
 
 class Search (forms.Form):

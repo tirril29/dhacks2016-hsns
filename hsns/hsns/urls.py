@@ -19,7 +19,7 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^problem/','app.views.option'),
+    #url(r'^problem/','app.views.option'),
     
     url(r'^login_page/', 'app.views.login_page'),
     url(r'^register_page/', 'app.views.register_page'),
