@@ -26,7 +26,13 @@ def index(request):
 
 def set(request, n):
 	request.session['hackathon'] = n;
-	return HttpResponseRedirect('/ideas/')
+	return HttpResponseRedirect('/problem/')
+
+
+def option (request):
+	
+	return render(request, 'app/option.html',{'session':request.session['hackathon']});
+
 
 def about(request):
    	return render(request,'app/about.html');
@@ -123,7 +129,7 @@ def adindex(request): #, cf = lambda x: True)
 		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form,'flag': loggedin(request.session)});
 
 #render ads for one specific hackathon using hackathon id 
-def hackathon_ad(request,hackathon_id):
+def hackathon_ad(request):#,hackathon_id):
 	if request.method == "POST":
 		form = forms.Search(request.POST)
 		if form.is_valid():
@@ -235,3 +241,5 @@ def create_page(request, type):
 	c_d = create_data
 	c_d['action'] += type + '/'
 	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
+
+
