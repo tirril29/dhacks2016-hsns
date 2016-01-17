@@ -19,9 +19,11 @@ from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^about/',include("app.home")),
-    url(r'^$',include("app.urls")),
-  
+    url(r'^about/','app.views.index'),
+    url(r'^(?P<hackathon_name>[\w]+)/$','app.views.hackathon'),
+    url(r'^$','app.views.index'),
+    
+
    
     
 
