@@ -6,6 +6,8 @@ import models, forms
 
 #Helpers:
 
+loggedin = lambda x: True if 'user' in x and x['user'] is not None else False
+
 login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}] #, 'class': 'btn-success'}] 
 register_buttons = [{'name': 'Register', 'type':'submit', 'action':'/register/'}]
 
@@ -18,8 +20,12 @@ register_data = {'name': 'User Name', 'action': '/register/', 'method': 'post', 
 # Create your views here.
 def index(request):
 	#print request.session['user']
-	hackathons = [x for x in models.Hackathon.objects.all().values('id', 'name')]
+	hackathons = [{'name': x['name'], 'link': '/set/' + str(x['id'])} for x in models.Hackathon.objects.all().values('id', 'name')]
 	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons});
+
+def set(request, n):
+	request.session['hackathon'] = n;
+	return HttpResponseRedirect('/ideas/')
 
 def about(request):
    	return render(request,'app/about.html');
@@ -36,8 +42,8 @@ def idea(request, idea_id):
 
 #gets all ideas from all hackathons
 def ideaindex(request):
-	search = request.GET.get('q')
-	titleQ = request.GET.get('t')
+	#search = request.GET.get('q')
+	#titleQ = request.GET.get('t')
 	if search == None or titleQ == None:
 		search=""
 		posts = models.Post.objects.all()
@@ -45,13 +51,13 @@ def ideaindex(request):
 	posts= models.Post.objects.filter(tags__icontains=search,title__icontains=titleQ)
 	if len(posts) == 0:
 		return render (request, 'app/ideas_index.html', {'msg': 'No idea fits your search parameter'})
-	return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts]});
+	return render (request, 'app/ideas_index.html', {'idea_list':[x for x in posts], 'flag': loggedin(request.session)});
 
 #render ideas for one specific hackathon using hackathon id 
-def hackathon_idea(request,hackathon_id):
+def hackathon_idea(request):#,hackathon_id):
     try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        ideasH =  models.Post.objects.filter(hackathon = hackathon_id)
+        #hack = get_object_or_404(models.Hackathon,id=hackathon_id)
+        ideasH =  models.Post.objects.filter(hackathon = request.session['hackathon'])
         if len(ideasH) == 0:
             return HttpResponse("No idea has been posted yet")
         return render(request,'app/ideas_index.html',{'idea_list':[x for x in ideasH]});        
@@ -84,7 +90,7 @@ def adindex(request): #, cf = lambda x: True):
 	posts= models.Post.objects.filter(tags__icontains=search)#,title__icontains=search)
 	if len(posts) == 0:
 		return render (request, 'app/ads_index.html', {'msg': 'No idea fits your search parameter'})
-	return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts]});
+	return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'flag': loggedin(request.session)});
 '''    
 #posts = filter(cf, [x for x in models.Post.objects.all().values()])
     posts = models.Post.objects.all()
@@ -95,8 +101,8 @@ def adindex(request): #, cf = lambda x: True):
 #render ads for one specific hackathon using hackathon id 
 def hackathon_ad(request,hackathon_id):
     try:
-        hack = get_object_or_404(models.Hackathon,id=hackathon_id)
-        adsH =  models.Post.objects.filter(hackathon = hackathon_id)
+        #hack = get_object_or_404(models.Hackathon,id=hackathon_id)
+        adsH =  models.Post.objects.filter(hackathon = request.session['hackathon'])
         if len(ideasH) == 0:
             return HttpResponse("No ad has been posted yet")
         return render(request,'app/ads_index.html',{'ad_list':[x for x in adsH]});        
