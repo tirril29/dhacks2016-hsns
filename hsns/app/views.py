@@ -8,14 +8,14 @@ import models, forms
 
 loggedin = lambda x: True if 'user' in x and x['user'] is not None else False
 
-login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}] #, 'class': 'btn-success'}] 
+login_buttons = [{'name': 'Log In', 'type': 'submit', 'action': '/login/'}] #, 'class': 'btn-success'}] 
 register_buttons = [{'name': 'Register', 'type':'submit', 'action':'/register/'}]
-create_button = {'name': '', 'type': 'submit', 'action': '/create/'}
+create_buttons = [{'name': 'Submit', 'type': 'submit', 'action': '/create/'}]
 
 
-login_data = {'name': 'Email Address', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
-register_data = {'name': 'User Name', 'action': '/register/', 'method': 'post', 'button_list': register_buttons} 
-create = {'name':'', 'action':'/create/', 'method':'post', 'button': create_button}
+login_data = {'name': 'Log In', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
+register_data = {'name': 'Register', 'action': '/register/', 'method': 'post', 'button_list': register_buttons} 
+create_data = {'name': 'Create', 'action':'/create/', 'method':'post', 'button_list': create_buttons}
 #reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
 
 
@@ -76,6 +76,10 @@ def login_page(request):
 	return render(request, 'app/login.html',{'login_data': login_data, 'login_form': forms.Login()})
 def register_page(request):
 	return render(request, 'app/register.html',{'register_data': register_data, 'register_form': forms.Register()})
+def create_page(request, type):
+	c_d = create_data
+	c_d['action'] += type + '/'
+	return render(request, 'app/create.html', {'create_data': c_d, 'create_form': forms.Create()})
 
 
 
@@ -185,18 +189,21 @@ def create(request, type):
 	if request.method == 'POST':
 		form = forms.Create(request.POST)
 		if form.is_valid():
-			hackathon = request.session['hackathon']
-			user = request.session['user']
+			hackathon = models.Hackathon.objects.get(id = request.session['hackathon'])
+			user = models.User.objects.get(id = request.session['user'])
 			type = type
 			title = form.cleaned_data['title']
 			text = form.cleaned_data['text']
 			tags = form.cleaned_data['tags']
 			email1 = form.cleaned_data['email1']
 			email2 = form.cleaned_data['email2']
-			members = [x.id for x in [models.User.objects.filter(email2)] + [models.User.object.filter(email1)]]
-			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags, members = members)
+			members = [x for x in list(models.User.objects.filter(email_address = email2)) + list(models.User.objects.filter(email_address = email1))]
+			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags)
+			post.save()
+			for member in members:
+				post.members.add(member)
 		else:
 			print form.errors
-			return HttpResponseRedirect('/create_page/', type)
+			return HttpResponseRedirect('/create_page/' + type + '/')
 	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
 

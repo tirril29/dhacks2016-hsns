@@ -21,7 +21,7 @@ urlpatterns = [
 
     url(r'^login_page/', 'app.views.login_page'),
     url(r'^register_page/', 'app.views.register_page'),
-    url(r'^create_page/(?P<type>(True|False))/&', 'app.views.create_page'),
+    url(r'^create_page/(?P<type>(True|False))/$', 'app.views.create_page'),
 
     url(r'^about/','app.views.about'),
 
@@ -38,6 +38,7 @@ urlpatterns = [
     url(r'^login/', 'app.views.login'),
     url(r'^logout/', 'app.views.logout'),
     url(r'^register/', 'app.views.register'),
+    url(r'^create/(?P<type>(True|False))/$', 'app.views.create'),
     url(r'^set/(?P<n>[\d]+)/$', 'app.views.set'),
     
     url(r'^$','app.views.index'),

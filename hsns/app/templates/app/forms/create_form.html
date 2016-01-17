@@ -3,10 +3,16 @@
     {% for field in form %}
     <div class="row form-group">
         {{ field.errors }}
-            {% if field.name == 'email_address' %}
-                <p>Enter your email address</p>
-            {% elif field.name == 'password' %}
-                <p>Enter your password</p>
+            {% if field.name == 'title' %}
+                <p>Enter your title.</p>
+            {% elif field.name == 'text' %}
+                <p>Enter your text.</p>
+            {% elif field.name == 'tags' %}
+                <p>Enter your tags. </p>
+            {% elif field.name == 'email1' %}
+                <p>Enter your teammate's email 1.</p>
+            {% elif field.name == 'email2' %}
+                <p>Enter your teammate's email 3.</p>
             {% endif %}       
         {{ field }}
     </div>
