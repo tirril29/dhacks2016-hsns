@@ -3,7 +3,16 @@
 {% block content %}
 
 {% for h in hackathons %}
-   <li>{{h.name}}</li>
-{% endfor %}
+	<li>{{h.name}}</li>
+{% endfor %}≈
+
+	{% with login_data as form_data and login_form as form %}
+		{% include "form.html" %}
+	{% endwith %}
+
+	<!-- modal pop-ups for buttons -->
+    {% with reg_modal as modal_data and reg_form as form %}
+        {% include "modals/modal.html" %}
+    {% endwith %}
 
 {% endblock %}

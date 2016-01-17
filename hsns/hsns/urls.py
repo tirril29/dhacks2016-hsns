@@ -30,6 +30,11 @@ urlpatterns = [
     
     url(r'^all_ideas/','app.views.ideaindex'),
     url(r'^all_ads/','app.views.adindex'),
-    url(r'^$','app.views.index'),
     
-]
+    
+    url(r'^login/', 'app.views.login'),
+    url(r'^logout/', 'app.views.logout'),
+    url(r'^register/', 'app.views.register'),
+    
+    url(r'^$','app.views.index'),
+    ]
