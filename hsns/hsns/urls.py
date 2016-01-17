@@ -19,6 +19,8 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
+    url(r'^problem/','app.views.option'),
+    
     url(r'^login_page/', 'app.views.login_page'),
     url(r'^register_page/', 'app.views.register_page'),
     url(r'^create_page/(?P<type>(True|False))/$', 'app.views.create_page'),
@@ -30,7 +32,7 @@ urlpatterns = [
     #url(r'^ideas/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_idea'),
 
     url(r'^ad/(?P<ad_id>[\d]+)/$','app.views.ad'),
-    url(r'^ads/(?P<hackathon_id>[\d]+)/$','app.views.hackathon_ad'),
+    url(r'^ads/$','app.views.hackathon_ad'),
 
     url(r'^all_ideas/','app.views.ideaindex'),
     url(r'^all_ads/','app.views.adindex'),
