@@ -1,0 +1,2 @@
+#exclude compiled python files <- causing too many merge conflicts
+*.pyc
