@@ -18,6 +18,12 @@
     }
   },
   {
+    "model": "app.hackathon",
+    "fields": {
+      "name": "Dragon Hacks 2016"
+    }
+  },
+  {
     "model": "app.user",
     "fields": {
       "first_name": "John",
