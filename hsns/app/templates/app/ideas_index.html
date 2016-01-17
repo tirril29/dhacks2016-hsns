@@ -2,9 +2,9 @@
 
 {% for idea in idea_list %}
     <div>
-        <h2>{{idea.Hackathon}}</h2>
+        <h2>{{idea.Hackathon.name}}</h2>
         <p>{{ idea.text |truncatewords:"100" }}</p>
-        <p>{{ idea.user }}, {{idea.members}}</p>
+        <p>{{ idea.user.first_name }}, {{ idea.user.last_name}}   :  {{idea.members}}</p>
     </div>
 {% endfor %}
 
