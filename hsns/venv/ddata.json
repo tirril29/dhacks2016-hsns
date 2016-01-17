@@ -1,0 +1,26 @@
+[
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Mandy",
+      "last_name": "Mincemeat",
+      "password": "guest",
+      "email_address":"a@gmail.com"
+    }
+  },
+  {
+    "model": "app.user",
+    "fields": {
+      "first_name": "Mindy",
+      "last_name": "Mincemeat",
+      "password": "guest",
+      "email_address":"b@gmail.com"
+    }
+  },
+  {
+    "model": "app.hackathon",
+    "fields": {
+      "name": "Dragon Hacks 2016"
+    }
+  }
+]

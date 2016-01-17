@@ -1,17 +1,17 @@
 from django.db import models
 
 # Create your models here.
-class Hackathon(models.model):
+class Hackathon(models.Model):
 	name = models.CharField(max_length = 30)
 
-class User(models.model):
+class User(models.Model):
 	first_name = models.CharField(max_length = 30)
 	last_name = models.CharField(max_length = 30)
 	email_address = models.EmailField()
 	password = models.CharField(max_length = 30)
 
-class Post(models.model):
-	Hackathon = models.ForeignKey(Hackathon)
-	text = charfield(1024)
-	user = models.ForeignKey(User)
-	members = models.ManyToMany(User)
+class Post(models.Model):
+	Hackathon = models.ForeignKey(Hackathon, on_delete = models.CASCADE)
+	text = models.CharField(max_length = 1024)
+	user = models.ForeignKey(User, related_name = 'member', on_delete = models.CASCADE)
+	members = models.ManyToManyField(User)
