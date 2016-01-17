@@ -28,7 +28,6 @@
     <link href="{% static "grayscale2.css" %}" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
     <link href="http://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
 
@@ -42,12 +41,41 @@
 </head>
 <body>
 
+    <!-- Navigation -->
     <nav class="navbar navbar-custom" role="navigation">
         <div class="container">
             <div class="navbar-header">
                 <a href="#home">{Insert Logo Here}</a>
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+
             </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                    <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a href="#register">Register</a>
+                    </li>
+                    <li>
+                        <a href="#login">Login</a>
+                    </li>
+                    <li>
+                        <a href="#about">About</a>
+                    </li>
+
+
+
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
         </div>
+        <!-- /.container -->
     </nav>
 
 {% block content %}
