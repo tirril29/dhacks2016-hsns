@@ -137,4 +137,3 @@ def register(request):
 		else:
 			print form.errors 
 			return HttpResponseRedirect('/')
->>>>>>> a1f80a4b36b1b070e7080e71233247e857a97640
