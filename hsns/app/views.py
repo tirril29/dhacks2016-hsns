@@ -40,10 +40,10 @@ def about(request):
 #a page for the information for each 'idea' post
 def idea(request, idea_id):
 	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
+	idea = get_object_or_404(models.Post,id=idea_id)
+	return render (request,'app/display_ideas.html',{'idea':idea})
 	try:
-		idea = get_object_or_404(models.Post,id=idea_id)
-
-		return render (request,'app/display_ideas.html',{'idea':idea})
+		return None;
 	except:                                                             
 		return HttpResponse("Nonexistent Idea")
 

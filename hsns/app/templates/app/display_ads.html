@@ -1,22 +1,36 @@
 {% extends "app/base.html" %}
 {% block content %}
+<style>
+.tag{
+padding:8px;
+font-size:.9em;
+background-color:violet;
+display:inline;
+border-radius:6px;
+}
+<link rel="stylesheet" href="https://www.google.com/fonts#QuickUsePlace:quickUse/Family:Orbitron:900">
+</style>
+    <!-- About Section -->
+    <h1 class="Orbitron-normal-900" style="text-align:center"><i>Looking for Group Members</i></h1>
+    <section class="container content-section text-center">
+        <div class="row">
+            <div id="post-box" class="col-lg-8 col-lg-offset-2">
+
+	      	      <h1><u>{{ad.title}}</u></h1>
+      
+	      <p id="group-members">{{ad.user.first_name}} {{ad.user.last_name}} and <a href="#" data-toggle="tooltip" data-placement="bottom" data-html="true" data-original-title="{% for member in ad.members.all %}{{member.first_name}} {{member.last_name}}<br>{% endfor %}">two others</a></p>
+	      <p>{{ ad.text }}</p>
+	      <p>Tags: <span class="tag">{{ ad.tags }}</span><p>
+		
+            </div>
+        </div>
+    </section>
 
 
-<div>
-    	<h3>{{ad.title}}</h3>
-        <p>{{ ad.user.first_name }} {{ ad.user.last_name}}</p>
-        <p>{% for member in ad.members.all %}{{member.first_name}} {{member.last_name}}  {% endfor %}</p>
-        <p>{{ ad.text |truncatewords:"100" }}</p>
-		<p>Tags: {{ idea.tags }}
-    </div>
-<div>
-  
-  {{ad.user.first_name}} {{ad.user.last_name}}<br> {% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} {% endfor %}
-  <h2>
-  LOOKING FOR MEMBERS FOR {{ad.Hackathon.name}}
-  </h2>
-  Ad Title:<u>{{ad.title}}</u>
-  <p>{{ ad.text |truncatewords:"100" }}</p>
-</div>
-
+<script>
+  $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+  })
+    </script>
 {% endblock %}
+
