@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
-import models
+import models, forms
 
 #Helpers:
 
@@ -117,6 +117,7 @@ def logout(request):
 ## STILL EXISTS BECAUSE OWEN IS WORKING ON LOGIN PAGE 
 ## I DON'T WANT TO RESTRUCTURE REG FORMS, WILL BE Create_Object
 def register(request):
+<<<<<<< HEAD
     if request.method == "POST":
         form = forms.Register(request.POST)
         if form.is_valid():
@@ -138,3 +139,24 @@ def register(request):
             print form.errors 
     return HttpResponseRedirect('/')
 
+=======
+	if request.method == "POST":
+		form = forms.Register(request.POST)
+		if form.is_valid():
+			first_name = form.cleaned_data['first_name']
+			last_name = form.cleaned_data['last_name']
+			email_address = form.cleaned_data['email_address']
+			password = form.cleaned_data['password']
+
+			user = models.User.objects.get(email_address__exact = email_address)
+			if user is None:
+				user = models.User(first_name = first_name, last_name = last_name, 
+					email_address = email_address, password = password)
+				user.save()
+				request.session['user'] = user.id
+				return HttpResponseRedirect('/')
+				print "user %s exists" % user
+		else:
+			print form.errors 
+			return HttpResponseRedirect('/')
+>>>>>>> a1f80a4b36b1b070e7080e71233247e857a97640

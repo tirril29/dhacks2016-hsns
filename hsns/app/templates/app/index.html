@@ -7,12 +7,12 @@
 {% endfor %}≈
 
 	{% with login_data as form_data and login_form as form %}
-		{% include "form.html" %}
+		{% include "app/forms.html" %}
 	{% endwith %}
 
 	<!-- modal pop-ups for buttons -->
     {% with reg_modal as modal_data and reg_form as form %}
-        {% include "modals/modal.html" %}
+        {% include "app/modal.html" %}
     {% endwith %}
 
 {% endblock %}
