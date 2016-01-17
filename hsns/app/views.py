@@ -10,10 +10,12 @@ loggedin = lambda x: True if 'user' in x and x['user'] is not None else False
 
 login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}] #, 'class': 'btn-success'}] 
 register_buttons = [{'name': 'Register', 'type':'submit', 'action':'/register/'}]
+create_button = {'name': '', 'type': 'submit', 'action': '/create/'}
 
 
 login_data = {'name': 'Email Address', 'action': '/login/', 'method': 'post', 'button_list': login_buttons} 
 register_data = {'name': 'User Name', 'action': '/register/', 'method': 'post', 'button_list': register_buttons} 
+create = {'name':'', 'action':'/create/', 'method':'post', 'button': create_button}
 #reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'title': 'Register User'} 
 
 
@@ -32,8 +34,8 @@ def about(request):
 
 #a page for the information for each 'idea' post
 def idea(request, idea_id):
-	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)        
-        try:
+	#return ideaindex(request, cf = lambda x: True if x[u'id'] == idea_id else False)
+	try:
 		idea = get_object_or_404(models.Post,id=idea_id)
 
 		return render (request,'app/display_ideas.html',{'idea':idea})
@@ -42,15 +44,12 @@ def idea(request, idea_id):
 
 #gets all ideas from all hackathons
 def ideaindex(request):
-<<<<<<< HEAD
 	#search = request.GET.get('q')
 	#titleQ = request.GET.get('t')
 	if search == None or titleQ == None:
-=======
-	search = request.GET.get('q')
-	titleQ = request.GET.get('t')
+		search = request.GET.get('q')
+		titleQ = request.GET.get('t')
 	if search == None:
->>>>>>> 22fed4c604e063249333ec4692a75b54e8706ebb
 		search=""
 	if titleQ == None:
 		titleQ = ""
@@ -160,8 +159,6 @@ def logout(request):
         sessionInfo = None
 	return HttpResponseRedirect('/')
 
-## STILL EXISTS BECAUSE OWEN IS WORKING ON LOGIN PAGE 
-## I DON'T WANT TO RESTRUCTURE REG FORMS, WILL BE Create_Object
 def register(request):
 	if request.method == "POST":
 		form = forms.Register(request.POST)
@@ -183,3 +180,23 @@ def register(request):
 		else:
 			print form.errors 
 			return HttpResponseRedirect('/')
+
+def create(request, type):
+	if request.method == 'POST':
+		form = forms.Create(request.POST)
+		if form.is_valid():
+			hackathon = request.session['hackathon']
+			user = request.session['user']
+			type = type
+			title = form.cleaned_data['title']
+			text = form.cleaned_data['text']
+			tags = form.cleaned_data['tags']
+			email1 = form.cleaned_data['email1']
+			email2 = form.cleaned_data['email2']
+			members = [x.id for x in [models.User.objects.filter(email2)] + [models.User.object.filter(email1)]]
+			post = models.Post(hackathon = hackathon, user = user, type = type,  title = title, text = text, tags = tags, members = members)
+		else:
+			print form.errors
+			return HttpResponseRedirect('/create_page/', type)
+	return HttpResponseRedirect('/idea/' + str(post.id) if type else '/ad/' + str(post.id))
+

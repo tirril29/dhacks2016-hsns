@@ -21,6 +21,7 @@ urlpatterns = [
 
     url(r'^login_page/', 'app.views.login_page'),
     url(r'^register_page/', 'app.views.register_page'),
+    url(r'^create_page/(?P<type>(True|False))/&', 'app.views.create_page'),
 
     url(r'^about/','app.views.about'),
 
