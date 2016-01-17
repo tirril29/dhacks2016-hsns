@@ -19,3 +19,10 @@ class Register(forms.Form):
 class Search (forms.Form):
 	title_query= forms.CharField(required=False)
 	tag_query=forms.CharField(required=False)
+
+class Create(forms.Form):
+	title = forms.CharField()
+	text = forms.CharField()
+	tags = forms.CharField()
+	email1 = forms.EmailField()
+	email2 = forms.EmailField()

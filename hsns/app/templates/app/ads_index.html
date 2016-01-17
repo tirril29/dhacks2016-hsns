@@ -10,10 +10,15 @@
     </div>
 {% endfor %}
 
-
 <form action="?q={{tag_query}}&t={{title_query}}" method="POST">
 {% csrf_token %}
 {{form}}  
   <input type="submit" name="submit" value="submit">
 </form>
+
+{% if flag %}
+<a href='/create/'>Post</a>
+{% endif %}
+
+
 {% endblock %}
