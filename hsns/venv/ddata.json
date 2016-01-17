@@ -16,5 +16,11 @@
       "password": "guest",
       "email_address":"b@gmail.com"
     }
+  },
+  {
+    "model": "app.hackathon",
+    "fields": {
+      "name": "Dragon Hacks 2016"
+    }
   }
 ]
