@@ -5,18 +5,20 @@ import models
 
 #Helpers:
 
-login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/', 'class': 'btn-primary'},
-{'name': 'Register', 'type': 'modal', 'data_target': '#createUser', 'class': 'btn-success'}] 
+login_buttons = [{'name': 'Login', 'type': 'submit', 'action': '/login/'}, #, 'class': 'btn-primary'},
+{'name': 'Register', 'type': 'modal', 'data_target': '#createUser'}] #, 'class': 'btn-success'}] 
 
 
-login_data = {'name': 'MassOpenCloud Login', 'action': '/login', 'method': 'post', 'button_list': login_buttons} 
+login_data = {'name': 'User Name', 'action': '/login', 'method': 'post', 'button_list': login_buttons} 
 
 reg_modal = {'id': 'createUser', 'action': '/register', 'method': 'post', 'title': 'Register User'} 
 
 
 # Create your views here.
 def index(request):
-	return render(request, 'app/index.html', {'hackathons': [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]});
+	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
+	return render(request, 'app/index.html', {'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
+                  'reg_modal': reg_modal, 'reg_form': forms.Register()});
     #return HttpResponse("Index Page");
 
 def about(request):
@@ -70,7 +72,7 @@ def logout(request):
 
 ## STILL EXISTS BECAUSE OWEN IS WORKING ON LOGIN PAGE 
 ## I DON'T WANT TO RESTRUCTURE REG FORMS, WILL BE Create_Object
-def register(request):ing 
+def register(request):
     if request.method == "POST":
         form = forms.Register(request.POST)
         if form.is_valid():
