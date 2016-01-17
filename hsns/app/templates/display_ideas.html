@@ -1,0 +1,12 @@
+{% block content %}
+
+{% for idea in idea_list %}
+    <div>
+        <h2><a href="{{idea.url}}">
+            {{idea.title}}
+        </a></h2>
+        <p>{{ idea.summary|truncatewords:"100" }}</p>
+    </div>
+{% endfor %}
+
+{% endblock %}
