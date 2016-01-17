@@ -2,10 +2,11 @@
 
 {% for idea in idea_list %}
     <div>
-        <h2><a href="{{app/idea.id}}">
+        <h2><a href="{{ idea.id}}">
             {{idea.title}}
-        </a></h2>
-        <p>{{ idea.text |truncatewords:"100" }}</p>
+	</a></h2>
+        {{idea.id}}
+	<p>{{ idea.text |truncatewords:"100" }}</p>
     </div>
 {% endfor %}
 

@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse
 
 import models
@@ -13,15 +13,15 @@ def about(request):
 
 #idea and posts are synonyms for the same concept
 def idea(request, idea_id):
-    
     try:
-        idea = get_object_or_404(Word,id=idea_id)
+        idea = get_object_or_404(models.Post,id=idea_id)
         
-        #return render (request,'app/display_ideas.html',{'idea':
-                                                             
-        return HttpResponse("ALSKDFJALKDSJF - idea %s." % idea_id)
-    except:
+        return render (request,'app/display_ideas.html',{'idea':idea})
+    except:                                                             
         return HttpResponse("Nonexistent")
+    
+        return HttpResponse("ALSKDFJALKDSJF - idea %s." % idea_id)
+
 
 def ideaindex(request):
     for y in  models.Post.objects.all():
