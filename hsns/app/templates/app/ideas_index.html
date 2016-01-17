@@ -11,32 +11,32 @@
 <!-- LIST OF IDEAS -->
     
 <style>
-form{
-text-align:center;
-margin:auto;
-background-color:#336699;
-}
-input{
-width:20%;
-margin:2%;
-display:inline;
+  form{
+  text-align:center;
+  margin:auto;
+  background-color:#336699;
+  }
+  input{
+  width:20%;
+  margin:2%;
+  display:inline;
 
-}
-.mini-tags{
-
-border-radius:7px;
-background-color:turquoise;
-}
+  }
+  .mini-tags{
+  
+  border-radius:7px;
+  background-color:turquoise;
+  }
 </style>
 {% for idea in idea_list %}
-  <div style="margin:3em;background-color:white;color:black;padding:24px;font-weight:800;border-radius:20px">
-    <h2 style="margin:10px"><a href="#"g>{{idea.title}}</a></h2>
-    <div style="display:inline;color:navy"><div style="margin:5px;padding:10px 0;text-align:left;display:inline-block; font-size:20px">{{ idea.user.first_name }} {{ idea.user.last_name}}</div>
+<div style="margin:3em;background-color:white;color:black;padding:24px;font-weight:800;border-radius:20px">
+  <h2 style="margin:10px"><a href="#"g>{{idea.title}}</a></h2>
+  <div style="display:inline;color:navy"><div style="margin:5px;padding:10px 0;text-align:left;display:inline-block; font-size:20px">{{ idea.user.first_name }} {{ idea.user.last_name}}</div>
     <div style="margin:5px;padding:10px 0;text-align:right;float:right;display:inline;font-size:18px;">{% for member in idea.members.all %}{{member.first_name}} {{member.last_name}} 
       <span style="padding:25px"></span> {% endfor %}</div> </div>
-       <div> <p style="font-size:14px;margin:5px">{{ idea.text |truncatewords:"100" }}</p> </div>
-	<div style="text-align:right;font-size:15px;padding:5px;">	Tags: <span class="mini-tags">{{ idea.tags }}</span></div>
-    </div>
+  <div> <p style="font-size:14px;margin:5px">{{ idea.text |truncatewords:"100" }}</p> </div>
+  <div style="text-align:right;font-size:15px;padding:5px;">	Tags: <span class="mini-tags">{{ idea.tags }}</span></div>
+</div>
 {% endfor %}
 </div>
 <h1>{{ msg }}</h1>
