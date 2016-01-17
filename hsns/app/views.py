@@ -16,7 +16,7 @@ reg_modal = {'id': 'createUser', 'action': '/register/', 'method': 'post', 'titl
 # Create your views here.
 def index(request):
 	hackathons = [{'name': x['name']} for x in models.Hackathon.objects.all().values('name')]
-	return render(request, 'app/index.html', {'logininfo': request.session['user'], 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
+	return render(request, 'app/index.html', {'logininfo': '1', 'hackathons': hackathons, 'login_data': login_data, 'login_form': forms.Login(), 
                   'reg_modal': reg_modal, 'reg_form': forms.Register()});
     #return HttpResponse("Index Page");
 
