@@ -10,4 +10,5 @@ def index(request):
 
 
 def hackathon(request):
+    return render(request,'app/about.html',context="");
     return HttpResponse("About Page");
