@@ -26,13 +26,7 @@ def index(request):
 
 def set(request, n):
 	request.session['hackathon'] = n;
-	return HttpResponseRedirect('/problem/')
-
-
-def option (request):
-	
-	return render(request, 'app/option.html',{'session':request.session['hackathon']});
-
+	return HttpResponseRedirect('/idea/'+n)
 
 def about(request):
    	return render(request,'app/about.html');
