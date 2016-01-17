@@ -129,7 +129,7 @@ def adindex(request): #, cf = lambda x: True)
 		return render (request, 'app/ads_index.html', {'ad_list':[x for x in posts], 'form':form,'flag': loggedin(request.session)});
 
 #render ads for one specific hackathon using hackathon id 
-def hackathon_ad(request):git#,hackathon_id):
+def hackathon_ad(request):#,hackathon_id):
 	if request.method == "POST":
 		form = forms.Search(request.POST)
 		if form.is_valid():
