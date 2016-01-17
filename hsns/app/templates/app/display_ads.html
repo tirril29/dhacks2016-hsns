@@ -1,0 +1,13 @@
+{% block content %}
+
+<div>
+  
+  {{ad.user.first_name}} {{ad.user.last_name}}<br>
+  <h2>
+  LOOKING FOR MEMBERS FOR {{ad.Hackathon.name}}
+  </h2>
+  Ad Title:<u>{{ad.title}}</u>
+  <p>{{ ad.text |truncatewords:"100" }}</p>
+</div>
+
+{% endblock %}
