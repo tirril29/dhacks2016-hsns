@@ -241,7 +241,8 @@ input {
 }
 
 .dropdown-menu {
-    left:40%;
+    left:35%;
+    font-size: 20px;
 }
 
 @-webkit-keyframes pulse {    

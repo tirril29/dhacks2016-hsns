@@ -12,9 +12,9 @@
                         <p class="intro-text">Find Your Team.<br>Hack Your Idea.</p>
 
                         <div class="dropdown">
-                            <button id="dropdown" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown"
+                            <button id="dropdown" class="btn btn-lg btn-default dropdown-toggle" type="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="true">
-                                Select Your Hackathon <span class="caret"></span>
+                                <span id="button-text">Select Your Hackathon</span> <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labeledby="dropdown">
                                 {% for h in hackathons %}
@@ -53,7 +53,7 @@
 
 <script>
 $(".dropdown a").click(function() {
-    $("#dropdown").text($(this).text());
+    $("#button-text").text($(this).text());
 })
 </script>
 
