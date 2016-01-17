@@ -5,7 +5,7 @@ import models
 # Create your views here.
 
 def index(request):
-    return render(request, 'app/index.html', {'hackathons': [x for x in models.Hackathon.objects.all()]});
+    return render(request, 'app/index.html', {'hackathons': [{'name': x['name']} for x in models.Hackathon.objects.all().value('name')]});
     #return HttpResponse("Index Page");
 
 def about(request):
@@ -23,13 +23,11 @@ def idea(request, idea_id):
     except:
         return HttpResponse("Nonexistent")
 
-def ideaindex(request):
-    for y in  models.Post.objects.all():
-        print y 
-        
+def ideaindex(request, cf = lambda x: True):
+    posts = filter(cf, [x for x in models.Post.object.all()])
     #for p in  models.User.object.all():
     #    print p
-    return render (request, 'app/ideas_index.html', {'idea_list':[x for x in models.Post.objects.all()]});
+    return render (request, 'app/ideas_index.html', {'idea_list':[x.values() for x in posts]});
     
 def hackathon(request,hackathon_name):
     #render form
