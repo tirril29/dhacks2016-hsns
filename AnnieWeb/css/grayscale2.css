@@ -337,6 +337,10 @@ ul.banner-social-buttons {
     }
 }
 
+label {
+    line-height: 34px;
+}
+
 @media(max-width:767px) {
     ul.banner-social-buttons li {
         display: block;
