@@ -24,5 +24,6 @@ class Create(forms.Form):
 	title = forms.CharField()
 	text = forms.CharField()
 	tags = forms.CharField()
-	email1 = forms.EmailField()
-	email2 = forms.EmailField()
+	email1 = forms.EmailField(required = False)
+	email2 = forms.EmailField(required = False)
+
