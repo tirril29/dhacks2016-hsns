@@ -1,24 +1,26 @@
-<form class="col-md-4 col-centered form-inline" action="{{ form_data.action }}" method="{{ form_data.method }}">
+<form class="form-horizontal" action="{{ form_data.action }}" method="{{ form_data.method }}">
     {% csrf_token %}
     {% for field in form %}
-    <div class="row form-group">
+    <div class="form-group">
         {{ field.errors }}
             {% if field.name == 'first_name' %}
-                <p> Enter your first name <p>
+                <label for="firstname" class="col-sm-2" control-label>First Name</label>
             {% elif field.name == 'last_name' %}
-                <p> Enter your last name <p>
+                <label for="lastname" class="col-sm-2" control-label>Last Name</label>
             {% elif field.name == 'email_address' %}
-                <p>Enter your email address</p>
+                <label for="email" class="col-sm-2" control-label>Email</label>
             {% elif field.name == 'password' %}
-                <p>Enter your password</p>
+                <label for="password" class="col-sm-2" control-label>Password</label>
             {% endif %}       
+        <div class="col-sm-10">
         {{ field }}
+        </div>
     </div>
     {% endfor %}
 
     <br>
-    <div class="row btn-group" role="group">
+    <div class="form-group" role="group">
     {% for button in form_data.button_list %}
-    <button type='{{ button.type }}' class="btn btn-large {{ button.class }}" action="{{ button.action }}">{{ button.name }}</button>
+    <button type='{{ button.type }}' class="btn btn-large btn-success {{ button.class }}" action="{{ button.action }}">{{ button.name }}</button>
     {% endfor %}
 </form>
