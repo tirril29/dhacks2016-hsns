@@ -39,17 +39,23 @@
                         <h1 style="font-size:200px;" class="glyphicon glyphicon-piggy-bank">
                         </h1>
 
-                        <a href="Posts.html"><h2>I HAS IDEAZ</h2> </a>
+                        <a id="team" href="#"><h2>I HAS IDEAZ</h2> </a>
                     </div>
                     <div class="col-sm-6">
                         <h1 style="font-size:200px;" class="glyphicon glyphicon-fire"></h1> 
 
-                        <a href="Posts.tml"><h2>I HAS SKILLZ</h2> </a>
+                        <a id="indiv" href="#"><h2>I HAS SKILLZ</h2> </a>
                     </div>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+$(".dropdown a").click(function() {
+    $("#dropdown").text($(this).text());
+})
+</script>
 
     </body>
 
